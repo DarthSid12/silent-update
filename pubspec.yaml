@@ -10,7 +10,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  flutter_downloader: ^1.7.1
+  path_provider: ^2.0.8
+  permission_handler: ^8.3.0
+  dio: ^4.0.4
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

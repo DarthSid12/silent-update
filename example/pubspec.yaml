@@ -17,10 +17,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_downloader: ^1.7.1
-  path_provider: ^2.0.8
-  permission_handler: ^8.3.0
-  dio: ^4.0.4
+  package_info_plus: ^1.3.0  
   silent_update:
     # When depending on this package from a real application you should use:
     #   silent_update: ^x.y.z

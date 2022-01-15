@@ -3,7 +3,6 @@ package com.silent.update.silent_update
 
 import android.app.Activity
 import android.content.Context
-import android.annotation.TargetApi
 import android.app.PendingIntent
 import android.content.Intent
 import android.content.pm.PackageInstaller
@@ -16,7 +15,6 @@ import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
-import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import java.io.File
 import java.io.OutputStream
@@ -79,39 +77,39 @@ abstract class ContextAwarePlugin : FlutterPlugin, ActivityAware, MethodChannel.
     if (call.method == "getPlatformVersion") {
 
       result.success("Android version: ${android.os.Build.VERSION.RELEASE}")
-    }
-    else
-      if (call.method == "installApp"){
-        Log.d("Silent Update","Test 0")
-      val packageInstaller = applicationContext?.packageManager?.packageInstaller
+    } else
+      if (call.method == "installApp") {
+        Log.d("Silent Update", "Test 0")
+        val packageInstaller = applicationContext?.packageManager?.packageInstaller
 
-      // Prepare params for installing one APK file with MODE_FULL_INSTALL
-      // We could use MODE_INHERIT_EXISTING to install multiple split APKs
-      val params = PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL)
-      params.setAppPackageName(call.argument("packageName"))
-        Log.d("Silent Update","Test 1")
-      // Get a PackageInstaller.Session for performing the actual update
-      val sessionId = packageInstaller?.createSession(params)
-      val session = packageInstaller?.openSession(sessionId as Int)
-        Log.d("Silent Update","Test 2")
-      // Copy APK file bytes into OutputStream provided by install Session
-      val out = session?.openWrite((call.argument<String>("packageName") as String), 0, -1)
-        Log.d("Silent Update","Test 3")
-      val fis = File(call.argument<String>("apkPath") as String).inputStream()
-      fis.copyTo(out as OutputStream)
-        Log.d("Silent Update","Test 4")
+        // Prepare params for installing one APK file with MODE_FULL_INSTALL
+        // We could use MODE_INHERIT_EXISTING to install multiple split APKs
+        val params = PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL)
+        params.setAppPackageName(call.argument("packageName"))
+        Log.d("Silent Update", "Test 1")
+        // Get a PackageInstaller.Session for performing the actual update
+        val sessionId = packageInstaller?.createSession(params)
+        val session = packageInstaller?.openSession(sessionId as Int)
+        Log.d("Silent Update", "Test 2")
+        // Copy APK file bytes into OutputStream provided by install Session
+        val out = session?.openWrite((call.argument<String>("packageName") as String), 0, -1)
+        Log.d("Silent Update", "Test 3")
+        val fis = File(call.argument<String>("apkPath") as String).inputStream()
+        fis.copyTo(out as OutputStream)
+        Log.d("Silent Update", "Test 4")
         session.fsync(out)
-      out.close()
-        Log.d("Silent Update","Test 5")
-      // The app gets killed after installation session commit
-      session.commit(PendingIntent.getBroadcast(applicationContext, sessionId as Int,
-              Intent("android.intent.action.MAIN"), 0).intentSender)
-        Log.d("Silent Update","Test 6")
+        out.close()
+        Log.d("Silent Update", "Test 5")
+        // The app gets killed after installation session commit
+        session.commit(PendingIntent.getBroadcast(applicationContext, sessionId as Int,
+                Intent("android.intent.action.MAIN"), 0).intentSender)
+        Log.d("Silent Update", "Test 6")
         result.success("Success")
-    }
-      else {
-        Log.d("SilentUpdate",call.method)
-      result.error("Error","Error message","Error Details")
-    }
+      }
+    else{
+      Log.d("Silent Updater Plugin","Not implemented function. Try \"instalLApp\" for installation")
+      result.notImplemented()
+      }
   }
+
 }
