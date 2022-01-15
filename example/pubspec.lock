@@ -285,9 +285,11 @@ packages:
   silent_update:
     dependency: "direct main"
     description:
-      path: ".."
-      relative: true
-    source: path
+      path: "."
+      ref: main
+      resolved-ref: f931df62532300cff2027585a070e60d0cf1b66b
+      url: "https://github.com/DarthSid12/silent-update.git"
+    source: git
     version: "0.0.1"
   sky_engine:
     dependency: transitive
